@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAABAS Clothing</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial;}
+body{background:#f6f4f2;color:#333;}
+header{background:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 6px rgba(0,0,0,0.06);flex-wrap:wrap;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo img{height:44px;}
+nav a{margin:6px;text-decoration:none;color:#333;font-weight:600;}
+.btn{background:#ff7a18;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;}
+.hero{text-align:center;padding:24px;}
+.hero h1{color:#b25d2a;margin:6px 0;}
+.hero p{margin:0;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:16px;}
+.card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,0.06);position:relative;display:flex;flex-direction:column;justify-content:space-between;}
+.card img{width:100%;height:160px;object-fit:cover;border-radius:8px;}
+.badge{position:absolute;top:8px;right:8px;background:#2ecc71;color:#fff;padding:3px 7px;border-radius:8px;font-size:11px;}
+.price{color:#d2691e;font-weight:700;margin:6px 0;}
+button{padding:6px 10px;border:none;border-radius:6px;margin:3px;cursor:pointer;}
+.add{background:#3498db;color:#fff;}
+.buy{background:#27ae60;color:#fff;}
+#cart{position:fixed;right:-280px;top:0;width:250px;height:100%;background:#fff;padding:12px;box-shadow:-2px 0 8px rgba(0,0,0,0.08);transition:.25s;overflow-y:auto;z-index:99;}
+#cart.active{right:0;}
+#cart h3{margin-bottom:12px;text-align:center;}
+#cartItems li{margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;}
+.cart-btn{background:#ff7a18;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;position:fixed;bottom:16px;right:16px;z-index:100;}
+footer{background:#222;color:#fff;padding:20px;margin-top:20px;}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
+input{padding:6px;width:90%;border:1px solid #ccc;border-radius:6px;margin-bottom:6px;}
+#buyModal{display:none;position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.4);top:0;z-index:100;}
+.modal-content{background:#fff;padding:18px;width:320px;margin:90px auto;border-radius:10px;text-align:center;}
+@media(max-width:500px){
+ header, .hero{text-align:center;flex-direction:column;}
+ nav a{display:block;margin:4px 0;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="SAABAS logo" loading="eager">
+    <h2>SAABAS</h2>
+  </div>
+  <nav id="userArea">
+    <a href="#">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">Blog</a>
+    <a href="login.html" id="loginBtn" class="btn">Login/Register</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Welcome to SAABAS Clothing</h1>
+  <p>Explore modern fashion styles</p>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <span class="badge">SALE</span>
+    <img loading="lazy" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=60" alt="T-Shirt">
+    <h3>T-Shirt</h3>
+    <p>Comfort cotton wear</p>
+    <p class="price">Rs. 999</p>
+    <button class="add" onclick="addToCart('T-Shirt',999)">Add to Cart</button>
+    <button class="buy" onclick="showBuy('T-Shirt',999)">Buy</button>
+  </div>
+
+  <div class="card">
+    <img loading="lazy" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&q=60" alt="Hoodie">
+    <h3>Hoodie</h3>
+    <p>Stylish winter wear</p>
+    <p class="price">Rs. 1999</p>
+    <button class="add" onclick="addToCart('Hoodie',1999)">Add to Cart</button>
+    <button class="buy" onclick="showBuy('Hoodie',1999)">Buy</button>
+  </div>
+
+  <div class="card">
+    <span class="badge">SALE</span>
+    <img loading="lazy" src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&q=60" alt="Jeans">
+    <h3>Jeans</h3>
+    <p>Classic denim</p>
+    <p class="price">Rs. 2499</p>
+    <button class="add" onclick="addToCart('Jeans',2499)">Add to Cart</button>
+    <button class="buy" onclick="showBuy('Jeans',2499)">Buy</button>
+  </div>
+</div>
+
+<button class="cart-btn" onclick="toggleCart()">🛒 Cart</button>
+
+<div id="cart">
+  <h3>🛒 Cart</h3>
+  <ul id="cartItems"></ul>
+  <p>Total Rs. <span id="total">0</span></p>
+  <button onclick="checkout()">Checkout</button>
+</div>
+
+<footer>
+<div class="footer-grid">
+  <div>
+    <h3>SAABAS</h3>
+    <p>Modern clothing brand</p>
+  </div>
+  <div>
+    <h4>Navigate</h4>
+    <p>Home<br>Shop<br>Contact</p>
+  </div>
+  <div>
+    <h4>Contact</h4>
+    <p>Kathmandu<br>9800000000</p>
+  </div>
+</div>
+</footer>
+
+<!-- BUY MODAL -->
+<div id="buyModal">
+  <div class="modal-content">
+    <h3>Buy <span id="buyItemName"></span></h3>
+    <p>Price: Rs. <span id="buyItemPrice"></span></p>
+    <input id="buyerName" placeholder="Full Name"><br>
+    <input id="buyerEmail" placeholder="Email"><br>
+    <input id="buyerAddress" placeholder="Address"><br>
+    <input id="buyerPhone" placeholder="Phone Number"><br>
+    <button onclick="buyItem()">Pay Now</button>
+  </div>
+</div>
+
+<script>
+let cart = [], user = null, currentBuy = {};
+
+// Check if user is logged in
+const storedUser = localStorage.getItem('saabasUser');
+if(storedUser){
+  user = JSON.parse(storedUser);
+  document.getElementById('userArea').innerHTML = `Welcome ${user.name} <a href='#' onclick='logout()'>Logout</a>`;
+} else {
+  // Login/Register button already links to login.html
+}
+
+// Logout function
+function logout(){
+  localStorage.removeItem('saabasUser');
+  location.reload();
+}
+
+// Cart functions
+function addToCart(name, price){
+  if(!user){ alert('Login first'); return; }
+  const item = cart.find(i=>i.name===name);
+  if(item){ item.qty++; } else { cart.push({name, price, qty:1}); }
+  updateCart();
+  document.getElementById('cart').classList.add('active');
+}
+
+function updateCart(){
+  const cartItems = document.getElementById('cartItems');
+  cartItems.innerHTML = '';
+  let total = 0;
+  cart.forEach(item=>{
+    total += item.price * item.qty;
+    const li = document.createElement('li');
+    li.innerHTML = `${item.name} x${item.qty} Rs.${item.price*item.qty} 
+      <button onclick="removeItem('${item.name}')">Remove</button>`;
+    cartItems.appendChild(li);
+  });
+  document.getElementById('total').textContent = total;
+}
+
+function removeItem(name){
+  cart = cart.filter(i=>i.name!==name);
+  updateCart();
+}
+
+function checkout(){
+  if(cart.length===0){ alert('Cart empty'); return; }
+  alert('Fake payment success!');
+  cart=[]; updateCart();
+}
+
+function toggleCart(){
+  document.getElementById('cart').classList.toggle('active');
+}
+
+// Buy modal functions
+function showBuy(name, price){
+  if(!user){ alert('Login first'); return; }
+  currentBuy = {name, price};
+  document.getElementById('buyItemName').textContent = name;
+  document.getElementById('buyItemPrice').textContent = price;
+
+  // Auto-fill user info
+  document.getElementById('buyerName').value = user.name;
+  document.getElementById('buyerEmail').value = user.email;
+  document.getElementById('buyerAddress').value = user.address;
+  document.getElementById('buyerPhone').value = user.phone;
+
+  document.getElementById('buyModal').style.display='block';
+}
+
+document.getElementById('buyModal').onclick = e=>{
+  if(e.target.id==='buyModal') e.target.style.display='none';
+}
+
+function buyItem(){
+  const name = document.getElementById('buyerName').value.trim();
+  const email = document.getElementById('buyerEmail').value.trim();
+  const address = document.getElementById('buyerAddress').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+
+  if(!name || !email || !address || !phone){ alert('Fill all details'); return; }
+
+  alert(`Payment successful for ${currentBuy.name} Rs.${currentBuy.price}\nThank you, ${name}!`);
+  document.getElementById('buyModal').style.display='none';
+}
+</script>
+
+</body>
+</html>
