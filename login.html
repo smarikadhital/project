@@ -3,45 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAABAS Login/Register</title>
+<title>SAABAS Login</title>
+
 <style>
-body{font-family:Arial;background:#f6f4f2;color:#333;display:flex;justify-content:center;align-items:center;height:100vh;}
-.container{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);width:320px;text-align:center;}
-input{width:90%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #ccc;}
-button{padding:8px 14px;background:#ff7a18;color:#fff;border:none;border-radius:8px;margin-top:10px;cursor:pointer;}
-h2{margin-bottom:12px;color:#b25d2a;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial;}
+
+body{
+  background:linear-gradient(135deg,#ff7a18,#ffb347);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  background:#fff;
+  padding:26px;
+  border-radius:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  width:340px;
+  text-align:center;
+  animation:fadeIn 0.5s ease;
+}
+
+h2{
+  margin-bottom:14px;
+  color:#b25d2a;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+  transition:0.2s;
+}
+
+input:focus{
+  border-color:#ff7a18;
+  outline:none;
+  box-shadow:0 0 5px rgba(255,122,24,0.3);
+}
+
+button{
+  width:100%;
+  padding:10px;
+  background:#ff7a18;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#e96a10;
+}
+
+.small-btn{
+  background:#555;
+}
+
+.small-btn:hover{
+  background:#333;
+}
+
+.footer-text{
+  margin-top:10px;
+  font-size:13px;
+  color:#777;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h2>SAABAS Register/Login</h2>
-  <input type="text" id="name" placeholder="Full Name"><br>
-  <input type="text" id="address" placeholder="Address"><br>
-  <input type="email" id="email" placeholder="Email"><br>
-  <input type="text" id="phone" placeholder="Phone Number"><br>
-  <button onclick="register()">Register & Login</button>
+  <h2>SAABAS</h2>
+
+  <input type="text" id="name" placeholder="Full Name">
+  <input type="text" id="address" placeholder="Address">
+  <input type="email" id="email" placeholder="Email">
+  <input type="text" id="phone" placeholder="Phone Number">
+
+  <button onclick="register()">Continue</button>
+  <button class="small-btn" onclick="goBack()">← Back to Shop</button>
+
+  <p class="footer-text">Simple & Secure Login System</p>
 </div>
 
 <script>
+
+// 🔐 Redirect if already logged in
+const currentUser = localStorage.getItem('saabasUser');
+if(currentUser){
+  window.location.href = 'index.html';
+}
+
+// 🧠 Autofill previous data
+window.onload = () => {
+  const savedUser = JSON.parse(localStorage.getItem('registeredUser'));
+  if(savedUser){
+    document.getElementById('name').value = savedUser.name;
+    document.getElementById('address').value = savedUser.address;
+    document.getElementById('email').value = savedUser.email;
+    document.getElementById('phone').value = savedUser.phone;
+  }
+};
+
+// ✅ Register/Login Function
 function register(){
   const name = document.getElementById('name').value.trim();
   const address = document.getElementById('address').value.trim();
   const email = document.getElementById('email').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  
+
   if(!name || !address || !email || !phone){
-    alert('Please fill all fields!');
+    alert('⚠️ Please fill all fields!');
     return;
   }
-  
-  // Save user info in localStorage
+
   const user = {name, address, email, phone};
+
+  // Save session
   localStorage.setItem('saabasUser', JSON.stringify(user));
-  
-  // Redirect to demo.html
-  window.location.href = 'demo.html';
+
+  // Save account
+  localStorage.setItem('registeredUser', JSON.stringify(user));
+
+  alert("✅ Login Successful!");
+
+  // 🔥 FIXED REDIRECTION (NO ERROR)
+  redirectToHome();
 }
+
+// 🚀 Safe redirect function
+function redirectToHome(){
+  const page = 'index.html';
+
+  fetch(page)
+    .then(res => {
+      if(res.ok){
+        window.location.href = page;
+      } else {
+        alert('❌ Page not found! Make sure index.html exists.');
+      }
+    })
+    .catch(() => {
+      alert('⚠️ Error loading page. Check file location.');
+    });
+}
+
+// 🔙 Back button
+function goBack(){
+  window.location.href = 'index.html';
+}
+
 </script>
 
 </body>
