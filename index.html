@@ -4,218 +4,245 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAABAS Clothing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial;}
-body{background:#f6f4f2;color:#333;}
-header{background:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 6px rgba(0,0,0,0.06);flex-wrap:wrap;}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo img{height:44px;}
-nav a{margin:6px;text-decoration:none;color:#333;font-weight:600;}
-.btn{background:#ff7a18;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;}
-.hero{text-align:center;padding:24px;}
-.hero h1{color:#b25d2a;margin:6px 0;}
-.hero p{margin:0;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:16px;}
-.card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,0.06);position:relative;display:flex;flex-direction:column;justify-content:space-between;}
-.card img{width:100%;height:160px;object-fit:cover;border-radius:8px;}
-.badge{position:absolute;top:8px;right:8px;background:#2ecc71;color:#fff;padding:3px 7px;border-radius:8px;font-size:11px;}
-.price{color:#d2691e;font-weight:700;margin:6px 0;}
-button{padding:6px 10px;border:none;border-radius:6px;margin:3px;cursor:pointer;}
-.add{background:#3498db;color:#fff;}
-.buy{background:#27ae60;color:#fff;}
-#cart{position:fixed;right:-280px;top:0;width:250px;height:100%;background:#fff;padding:12px;box-shadow:-2px 0 8px rgba(0,0,0,0.08);transition:.25s;overflow-y:auto;z-index:99;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
+html{scroll-behavior:smooth;}
+body{background:linear-gradient(135deg,#fbe7d6,#ffe5b4); color:#5a3e2b; line-height:1.6;}
+
+/* Header */
+header{background:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 4px 15px rgba(0,0,0,0.1); flex-wrap:wrap; position:sticky; top:0; z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;} .logo img{height:44px;}
+nav a{margin:0 10px; text-decoration:none; color:#5a3e2b; font-weight:500; position:relative; transition:0.3s;}
+nav a::after{content:''; position:absolute; width:0; height:2px; background:#ff7a18; left:0; bottom:-4px; transition:0.3s;}
+nav a:hover::after{width:100%;} nav a:hover{color:#ff7a18;}
+.btn{background:linear-gradient(45deg,#ff7a18,#ffb347); color:#fff; padding:6px 14px; border-radius:8px; transition:0.3s;}
+.btn:hover{opacity:0.9;}
+
+/* Hero */
+.hero{text-align:center; padding:80px 20px;}
+.hero h1{font-size:42px;margin-bottom:10px;}
+.hero p{font-size:18px;}
+
+/* Section title */
+.section-title{text-align:center;margin:50px 0 30px 0;font-size:28px;color:#5a3e2b;}
+
+/* Shop buttons */
+#shop-buttons{text-align:center;margin-bottom:30px;}
+#shop-buttons button{margin:5px;padding:12px 20px;border:none;border-radius:8px;background:linear-gradient(45deg,#ff7a18,#ffb347);color:#fff;cursor:pointer;font-weight:500;transition:0.3s;}
+#shop-buttons button:hover{opacity:0.9;}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;padding:0 40px 60px 40px;}
+
+/* Card */
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:0.3s;text-align:center; display:flex; flex-direction:column; justify-content:space-between;}
+.card:hover{transform:translateY(-8px); box-shadow:0 12px 25px rgba(0,0,0,0.2);}
+.card img{width:100%;height:200px;object-fit:cover;border-radius:12px;margin-bottom:10px;}
+.card h3{margin:8px 0;font-size:20px;color:#5a3e2b;}
+.card p{margin-bottom:8px;color:#5a3e2b;}
+.price{color:#ff7a18;font-weight:700;margin-bottom:10px;}
+.card button{padding:8px 12px;border:none;border-radius:8px;margin:4px;cursor:pointer;color:#fff;font-weight:500;background:linear-gradient(45deg,#ff7a18,#ffb347);transition:0.3s;}
+.card button:hover{opacity:0.9;}
+select, input[type=number]{margin:6px 0; padding:6px; border-radius:6px; border:1px solid #ccc; width:80%; text-align:center;}
+
+/* Cart */
+#cart{position:fixed; right:-300px; top:0; width:280px; height:100%; background:#fff; padding:20px; box-shadow:-2px 0 12px rgba(0,0,0,0.1); transition:0.3s; overflow-y:auto; z-index:99;}
 #cart.active{right:0;}
-#cart h3{margin-bottom:12px;text-align:center;}
-#cartItems li{margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;}
-.cart-btn{background:#ff7a18;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;position:fixed;bottom:16px;right:16px;z-index:100;}
-footer{background:#222;color:#fff;padding:20px;margin-top:20px;}
-.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
-input{padding:6px;width:90%;border:1px solid #ccc;border-radius:6px;margin-bottom:6px;}
-#buyModal{display:none;position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.4);top:0;z-index:100;}
-.modal-content{background:#fff;padding:18px;width:320px;margin:90px auto;border-radius:10px;text-align:center;}
-@media(max-width:500px){
- header, .hero{text-align:center;flex-direction:column;}
- nav a{display:block;margin:4px 0;}
-}
+#cart h3{text-align:center;margin-bottom:20px;}
+#cartItems li{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px;}
+.cart-btn{position:fixed;bottom:20px;right:20px;background:linear-gradient(45deg,#ff7a18,#ffb347);color:#fff;padding:10px 14px;border-radius:50%;cursor:pointer;font-size:18px;z-index:100;}
+
+/* Detail Modal */
+#detailModal{display:none; position:fixed; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:200;}
+#detailModal .modal-content{background:#fff; padding:22px; width:320px; margin:100px auto; border-radius:12px; text-align:center; animation:fadeIn 0.3s ease;}
+
+/* Blog/About Section */
+.blog{padding:60px 20px; background:#ffe5b4; color:#5a3e2b;}
+.blog h2{text-align:center;margin-bottom:20px;}
+.blog p{text-align:center; max-width:800px; margin:0 auto; line-height:1.5;}
+
+/* Footer */
+footer{text-align:center; background:#5a3e2b; color:#fff; padding:30px;}
+
+/* Media */
+@media(max-width:600px){.hero h1{font-size:28px;}.grid{padding:0 20px; gap:20px;}.card img{height:150px;}}
+@keyframes fadeIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <img src="logo.png" alt="SAABAS logo" loading="eager">
-    <h2>SAABAS</h2>
-  </div>
+  <div class="logo"><img src="logo.png" alt=""><h2>SAABAS</h2></div>
   <nav id="userArea">
-    <a href="#">Home</a>
-    <a href="#">Shop</a>
-    <a href="#">Blog</a>
-    <a href="login.html" id="loginBtn" class="btn">Login/Register</a>
+    <a href="#hero">Home</a>
+    <a href="#shop">Shop</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+    <a href="login.html" class="btn">Login</a>
   </nav>
 </header>
 
-<div class="hero">
-  <h1>Welcome to SAABAS Clothing</h1>
-  <p>Explore modern fashion styles</p>
+<div class="hero" id="hero">
+  <h1>Upgrade Your Style</h1>
+  <p>Discover premium modern fashion at SAABAS</p>
 </div>
 
-<div class="grid">
-  <div class="card">
-    <span class="badge">SALE</span>
-    <img loading="lazy" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=60" alt="T-Shirt">
-    <h3>T-Shirt</h3>
-    <p>Comfort cotton wear</p>
-    <p class="price">Rs. 999</p>
-    <button class="add" onclick="addToCart('T-Shirt',999)">Add to Cart</button>
-    <button class="buy" onclick="showBuy('T-Shirt',999)">Buy</button>
+<div id="shop">
+  <div id="shop-buttons">
+    <button onclick="scrollToSection('male')">Male</button>
+    <button onclick="scrollToSection('female')">Female</button>
+    <button onclick="scrollToSection('children')">Children</button>
   </div>
 
-  <div class="card">
-    <img loading="lazy" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&q=60" alt="Hoodie">
-    <h3>Hoodie</h3>
-    <p>Stylish winter wear</p>
-    <p class="price">Rs. 1999</p>
-    <button class="add" onclick="addToCart('Hoodie',1999)">Add to Cart</button>
-    <button class="buy" onclick="showBuy('Hoodie',1999)">Buy</button>
-  </div>
+  <h2 class="section-title" id="male">Male Collection</h2>
+  <div class="grid" id="male-grid"></div>
 
-  <div class="card">
-    <span class="badge">SALE</span>
-    <img loading="lazy" src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&q=60" alt="Jeans">
-    <h3>Jeans</h3>
-    <p>Classic denim</p>
-    <p class="price">Rs. 2499</p>
-    <button class="add" onclick="addToCart('Jeans',2499)">Add to Cart</button>
-    <button class="buy" onclick="showBuy('Jeans',2499)">Buy</button>
-  </div>
+  <h2 class="section-title" id="female">Female Collection</h2>
+  <div class="grid" id="female-grid"></div>
+
+  <h2 class="section-title" id="children">Children Collection</h2>
+  <div class="grid" id="children-grid"></div>
 </div>
 
-<button class="cart-btn" onclick="toggleCart()">🛒 Cart</button>
-
-<div id="cart">
-  <h3>🛒 Cart</h3>
-  <ul id="cartItems"></ul>
-  <p>Total Rs. <span id="total">0</span></p>
-  <button onclick="checkout()">Checkout</button>
+<div class="blog" id="blog">
+<h2>About SAABAS</h2>
+<p>SAABAS Clothing is a modern fashion brand based in Kathmandu. We provide high-quality, stylish clothes for men, women, and children. Our mission is to blend comfort and style, bringing premium fabrics and trendy designs to everyone. Explore our collections to upgrade your wardrobe with timeless fashion pieces.</p>
 </div>
 
-<footer>
-<div class="footer-grid">
-  <div>
-    <h3>SAABAS</h3>
-    <p>Modern clothing brand</p>
-  </div>
-  <div>
-    <h4>Navigate</h4>
-    <p>Home<br>Shop<br>Contact</p>
-  </div>
-  <div>
-    <h4>Contact</h4>
-    <p>Kathmandu<br>9800000000</p>
-  </div>
-</div>
+<footer id="contact">
+<h2>Contact</h2>
+<p>SAABAS Clothing | Kathmandu</p>
+<p>Email: info@saabas.com | Phone: 9800000000</p>
+<p>© 2026 SAABAS Clothing</p>
 </footer>
 
-<!-- BUY MODAL -->
-<div id="buyModal">
-  <div class="modal-content">
-    <h3>Buy <span id="buyItemName"></span></h3>
-    <p>Price: Rs. <span id="buyItemPrice"></span></p>
-    <input id="buyerName" placeholder="Full Name"><br>
-    <input id="buyerEmail" placeholder="Email"><br>
-    <input id="buyerAddress" placeholder="Address"><br>
-    <input id="buyerPhone" placeholder="Phone Number"><br>
-    <button onclick="buyItem()">Pay Now</button>
-  </div>
+<button class="cart-btn" onclick="toggleCart()">🛒</button>
+<div id="cart">
+<h3>Cart</h3>
+<ul id="cartItems"></ul>
+<p>Total: Rs. <span id="total">0</span></p>
+</div>
+
+<div id="detailModal">
+<div class="modal-content">
+<h3 id="detailTitle"></h3>
+<p id="detailDesc"></p>
+<p id="detailExtra"></p>
+<button onclick="closeDetails()">Close</button>
+</div>
 </div>
 
 <script>
-let cart = [], user = null, currentBuy = {};
+// Scroll buttons
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 
-// Check if user is logged in
-const storedUser = localStorage.getItem('saabasUser');
-if(storedUser){
-  user = JSON.parse(storedUser);
-  document.getElementById('userArea').innerHTML = `Welcome ${user.name} <a href='#' onclick='logout()'>Logout</a>`;
-} else {
-  // Login/Register button already links to login.html
-}
+// Cart
+let cart = [];
 
-// Logout function
-function logout(){
-  localStorage.removeItem('saabasUser');
-  location.reload();
-}
+// Products
+const products = {
+  male:[
+    {name:"T-Shirt",price:999,img:"https://images.unsplash.com/photo-1759572095329-1dcf9522762b?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L","XL"],desc:"Soft cotton, breathable fabric"},
+    {name:"Jeans",price:2499,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400",sizes:["28","30","32","34","36"],desc:"Slim-fit stretchable denim"},
+    {name:"Leather Jacket",price:3499,img:"https://images.unsplash.com/photo-1623854156816-4c4fc355ffc7?q=80&w=436&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["M","L"],desc:"Premium stylish jacket"},
+    {name:"Sweater",price:1799,img:"https://images.unsplash.com/photo-1715176531842-7ffda4acdfa9?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Warm knitted sweater"},
+    {name:"Casual Shirt",price:1299,img:"https://images.unsplash.com/photo-1626497764746-6dc36546b388?q=80&w=726&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Stylish cotton casual shirt"},
+    {name:"Hoodie",price:1999,img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",sizes:["S","M","L"],desc:"Comfortable hoodie"},
+    {name:"Chinos",price:2199,img:"https://media.istockphoto.com/id/1294103850/photo/pants-isolated-on-white-background-hanged-trousers-chino-pants.jpg?s=1024x1024&w=is&k=20&c=zL_mh_2Iv156xXVDqlvAUNx1puKqOqfWXQ2NRJEj2ik=",sizes:["28","30","32","34"],desc:"Slim-fit chino pants"},
+    {name:"Suits",price:3999,img:"https://images.unsplash.com/photo-1594938328870-9623159c8c99?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["M","L"],desc:"Elegant formal suit"},
+    {name:"Shorts",price:899,img:"https://plus.unsplash.com/premium_photo-1666264877251-798baede9867?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Casual summer shorts"},
+    {name:"Sports T-Shirt",price:1099,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",sizes:["S","M","L"],desc:"Breathable sports T-shirt"},
+    {name:"Polo Shirt",price:1299,img:"https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cG9sbyUyMHNoaXJ0fGVufDB8fDB8fHww",sizes:["S","M","L"],desc:"Classic polo shirt"},
+    {name:"Denim Jacket",price:2999,img:"https://images.unsplash.com/photo-1537465978529-d23b17165b3b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["M","L"],desc:"Stylish denim jacket"}
+  ],
+  female:[
+    {name:"Summer Dress",price:1499,img:"https://images.unsplash.com/photo-1613966570650-add3cf83aa83?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Light and comfortable summer dress"},
+    {name:"Ball Gown",price:899,img:"https://images.unsplash.com/photo-1763959952596-1512ebea8eb1?q=80&w=388&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Elegant ball gown"},
+    {name:"Skirt",price:1299,img:"https://images.unsplash.com/photo-1577900232427-18219b9166a0?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Stylish mini skirt"},
+    {name:"Evening Gown",price:3999,img:"https://images.unsplash.com/photo-1602861810779-589fc0d34d1e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Elegant evening gown for special occasions"},
+    {name:"Maxi Dress",price:1799,img:"https://images.unsplash.com/photo-1585487000376-31e93cfda351?q=80&w=436&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Flowy maxi dress for casual wear"},
+    {name:"Shirt Dress",price:1399,img:"https://images.unsplash.com/photo-1768803968298-e31d64afee56?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Stylish shirt dress for everyday"},
+    {name:"Party Dress",price:2199,img:"https://media.istockphoto.com/id/2196267337/photo/fashion-woman-in-red-silk-backless-dress-with-oversized-bow-rear-view-elegant-lady-in-open.jpg?s=1024x1024&w=is&k=20&c=EL0K24-MyP28C7f4gHbSW6PrZND4Aparcne7Soi9EQE=",sizes:["S","M","L"],desc:"Trendy dress for parties"},
+    {name:"Wrap Dress",price:1999,img:"https://images.unsplash.com/photo-1624996659239-f5581806d0e2?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Wrap dress for elegant look"},
+    {name:"Bodycon Dress",price:2499,img:"https://images.unsplash.com/photo-1765229276405-4136eb5f8555?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Bodycon dress, perfect fit for nights out"},
+    {name:"Tunic Dress",price:1299,img:"https://images.unsplash.com/photo-1765958317162-1ce88e48ed0d?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Comfortable tunic dress for casual wear"},
+    {name:"Cocktail Dress",price:2999,img:"https://images.unsplash.com/photo-1765229291050-1a384c404a9a?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Cocktail dress for parties and events"},
+    {name:"Pleated Dress",price:1899,img:"https://images.unsplash.com/photo-1756483502814-fd570db8d4c7?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",sizes:["S","M","L"],desc:"Elegant pleated dress for day wear"}
+    
+  ],
+  children:[
+    {name:"Kids T-Shirt",price:499,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",sizes:["S","M","L"],desc:"Cute and soft cotton T-shirt for kids"},
+    {name:"Kids Hoodie",price:799,img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",sizes:["S","M","L"],desc:"Warm fleece hoodie for children"},
+    {name:"Kids Jeans",price:999,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400",sizes:["28","30","32"],desc:"Stretchable denim for kids"},
+    {name:"Kids Dress",price:1199,img:"https://images.unsplash.com/photo-1520975970653-1d7a82a2c06d?w=400",sizes:["S","M","L"],desc:"Adorable summer dress for girls"},
+    {name:"Kids Shorts",price:499,img:"https://images.unsplash.com/photo-1514996937319-344454492b37?w=400",sizes:["S","M","L"],desc:"Comfortable summer shorts"},
+    {name:"Kids Jacket",price:1499,img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?w=400",sizes:["S","M","L"],desc:"Warm jacket for children"},
+    {name:"Kids Polo",price:699,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",sizes:["S","M","L"],desc:"Cute polo shirt"},
+    {name:"Kids Sweater",price:899,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400",sizes:["S","M","L"],desc:"Soft knitted sweater for kids"},
+    {name:"Kids Hoodie 2",price:799,img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",sizes:["S","M","L"],desc:"Second style hoodie"},
+    {name:"Kids Leggings",price:499,img:"https://images.unsplash.com/photo-1520975970653-1d7a82a2c06d?w=400",sizes:["S","M","L"],desc:"Comfortable leggings"},
+    {name:"Kids Skirt",price:699,img:"https://images.unsplash.com/photo-1514996937319-344454492b37?w=400",sizes:["S","M","L"],desc:"Cute skirt for girls"},
+    {name:"Kids Shorts 2",price:499,img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?w=400",sizes:["S","M","L"],desc:"Casual shorts for boys"}
+  ]
+};
 
-// Cart functions
-function addToCart(name, price){
-  if(!user){ alert('Login first'); return; }
-  const item = cart.find(i=>i.name===name);
-  if(item){ item.qty++; } else { cart.push({name, price, qty:1}); }
-  updateCart();
-  document.getElementById('cart').classList.add('active');
-}
-
-function updateCart(){
-  const cartItems = document.getElementById('cartItems');
-  cartItems.innerHTML = '';
-  let total = 0;
-  cart.forEach(item=>{
-    total += item.price * item.qty;
-    const li = document.createElement('li');
-    li.innerHTML = `${item.name} x${item.qty} Rs.${item.price*item.qty} 
-      <button onclick="removeItem('${item.name}')">Remove</button>`;
-    cartItems.appendChild(li);
+// Render products
+function renderGrid(cat,id){
+  const container=document.getElementById(id);
+  container.innerHTML='';
+  products[cat].forEach((p,i)=>{
+    const div=document.createElement('div'); div.className='card';
+    div.innerHTML=`
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <p>${p.desc}</p>
+      <p class="price">Rs.${p.price}</p>
+      <select id="${cat}-size-${i}">
+        ${p.sizes.map(s=>`<option>${s}</option>`).join('')}
+      </select>
+      <input type="number" min="1" value="1" id="${cat}-qty-${i}">
+      <button onclick="addToCart('${cat}',${i})">Add to Cart</button>
+      <button onclick="showDetails('${cat}',${i})">Buy Now</button>
+    `;
+    container.appendChild(div);
   });
-  document.getElementById('total').textContent = total;
 }
+['male','female','children'].forEach(c=>renderGrid(c,c+'-grid'));
 
-function removeItem(name){
-  cart = cart.filter(i=>i.name!==name);
+// Cart
+function addToCart(cat,i){
+  const size=document.getElementById(`${cat}-size-${i}`).value;
+  const qty=parseInt(document.getElementById(`${cat}-qty-${i}`).value);
+  const p=products[cat][i];
+  const existing=cart.find(x=>x.name===p.name && x.size===size);
+  if(existing){existing.qty+=qty;} else{cart.push({name:p.name,price:p.price,size,size,qty});}
   updateCart();
 }
-
-function checkout(){
-  if(cart.length===0){ alert('Cart empty'); return; }
-  alert('Fake payment success!');
-  cart=[]; updateCart();
+function updateCart(){
+  const list=document.getElementById('cartItems'); list.innerHTML='';
+  let total=0;
+  cart.forEach(item=>{
+    total+=item.price*item.qty;
+    const li=document.createElement('li');
+    li.innerHTML=`${item.name} (${item.size}) x${item.qty} Rs.${item.price*item.qty} <button onclick="removeItem('${item.name}','${item.size}')">Remove</button>`;
+    list.appendChild(li);
+  });
+  document.getElementById('total').textContent=total;
 }
+function removeItem(name,size){cart=cart.filter(x=>!(x.name===name && x.size===size));updateCart();}
+function toggleCart(){document.getElementById('cart').classList.toggle('active');}
 
-function toggleCart(){
-  document.getElementById('cart').classList.toggle('active');
+// Product Details Modal
+function showDetails(cat,i){
+  const p=products[cat][i];
+  document.getElementById('detailTitle').textContent=p.name;
+  document.getElementById('detailDesc').textContent=p.desc;
+  document.getElementById('detailExtra').textContent="Price: Rs."+p.price+" | Sizes: "+p.sizes.join(",");
+  document.getElementById('detailModal').style.display='block';
 }
+function closeDetails(){document.getElementById('detailModal').style.display='none';}
 
-// Buy modal functions
-function showBuy(name, price){
-  if(!user){ alert('Login first'); return; }
-  currentBuy = {name, price};
-  document.getElementById('buyItemName').textContent = name;
-  document.getElementById('buyItemPrice').textContent = price;
-
-  // Auto-fill user info
-  document.getElementById('buyerName').value = user.name;
-  document.getElementById('buyerEmail').value = user.email;
-  document.getElementById('buyerAddress').value = user.address;
-  document.getElementById('buyerPhone').value = user.phone;
-
-  document.getElementById('buyModal').style.display='block';
-}
-
-document.getElementById('buyModal').onclick = e=>{
-  if(e.target.id==='buyModal') e.target.style.display='none';
-}
-
-function buyItem(){
-  const name = document.getElementById('buyerName').value.trim();
-  const email = document.getElementById('buyerEmail').value.trim();
-  const address = document.getElementById('buyerAddress').value.trim();
-  const phone = document.getElementById('buyerPhone').value.trim();
-
-  if(!name || !email || !address || !phone){ alert('Fill all details'); return; }
-
-  alert(`Payment successful for ${currentBuy.name} Rs.${currentBuy.price}\nThank you, ${name}!`);
-  document.getElementById('buyModal').style.display='none';
-}
 </script>
 
 </body>
